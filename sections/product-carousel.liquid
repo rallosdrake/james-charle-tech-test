@@ -1,4 +1,75 @@
-<div>hello world</div>
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #product-carousel-{{ section.id }} .pc-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: 989px) {
+    #product-carousel-{{ section.id }} .pc-grid {
+      grid-template-columns: repeat({{ section.settings.columns_tablet }}, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<script src="{{ 'product-carousel.js' | asset_url }}" defer></script>
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="mb-10">
+        {%- if section.settings.heading != blank -%}
+          <{{ section.settings.heading_size }} class="{{ section.settings.heading_size }} mb-2">
+            {{- section.settings.heading | escape -}}
+          </{{ section.settings.heading_size }}>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="text-base text-[rgba(var(--color-foreground),0.65)]">
+            {{- section.settings.subheading | escape -}}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <product-carousel
+      id="product-carousel-{{ section.id }}"
+      data-section-id="{{ section.id }}"
+      data-show-price="{{ section.settings.show_price }}"
+      data-show-arrows="{{ section.settings.show_arrows }}"
+      data-loop="{{ section.settings.loop }}"
+      data-autoplay="{{ section.settings.autoplay }}"
+      data-money-format="{{ shop.money_format | escape }}"
+      aria-label="{{ section.settings.heading | default: 'Product carousel' | escape }}"
+      aria-roledescription="carousel"
+    >
+      <div class="flex items-center justify-center py-12" data-loading>
+        <div
+          class="h-10 w-10 animate-spin rounded-full border-4 border-[rgba(var(--color-foreground),0.15)] border-t-[rgba(var(--color-foreground),1)]"
+          aria-hidden="true"
+        >
+          {%- render 'loading-spinner' -%}
+        </div>
+        <div class="sr-only" aria-live="polite" aria-atomic="true" data-loading-text>
+          {{ 'sections.product_carousel.loading' | t }}
+        </div>
+      </div>
+
+      <div class="sr-only" aria-live="polite" aria-atomic="true" data-carousel-announcement></div>
+    </product-carousel>
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "t:sections.product_carousel.name",
@@ -59,13 +130,6 @@
       "label": "t:sections.product_carousel.settings.show_price.label"
     },
     {
-      "type": "checkbox",
-      "id": "show_rating",
-      "default": false,
-      "label": "t:sections.product_carousel.settings.show_rating.label",
-      "info": "t:sections.product_carousel.settings.show_rating.info"
-    },
-    {
       "type": "header",
       "content": "t:sections.product_carousel.settings.header_layout.content"
     },
@@ -73,18 +137,25 @@
       "type": "range",
       "id": "columns_desktop",
       "min": 2,
-      "max": 5,
+      "max": 6,
       "step": 1,
       "default": 4,
       "label": "t:sections.product_carousel.settings.columns_desktop.label"
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "columns_tablet",
-      "min": 2,
-      "max": 4,
-      "step": 1,
-      "default": 3,
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2",
       "label": "t:sections.product_carousel.settings.columns_tablet.label"
     },
     {

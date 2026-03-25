@@ -1649,6 +1649,7 @@
       }
     },
     "product_carousel": {
+      "loading": "Loading",
       "name": "Product Carousel",
       "settings": {
         "header_content": {
