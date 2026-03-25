@@ -185,17 +185,9 @@ class ProductCarousel extends HTMLElement {
     const primaryImage = images[0];
     const secondaryImage = images[1];
 
-    return `
-      <li
-        class="pc-slide min-w-0 shrink-0"
-        role="group"
-        aria-roledescription="slide"
-        aria-label="${product.title}, slide ${index + 1} of ${total}"
-      >
-        <a
-          class="group block text-inherit no-underline rounded-[var(--media-radius,0.4rem)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-foreground))]"
-          href="/products/${product.handle}"
-        >
+    return `<li class="pc-slide min-w-0 shrink-0">
+        <div role="group" aria-roledescription="slide" aria-label="${product.title}, slide ${index + 1} of ${total}">
+        <a class="group block text-inherit no-underline rounded-[var(--media-radius,0.4rem)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-foreground))]" href="/products/${product.handle}">
           <div class="relative mb-3 aspect-square overflow-hidden rounded-[var(--media-radius,0.4rem)] bg-[rgba(var(--color-foreground),0.04)]">
             ${primaryImage
               ? `<img
@@ -244,6 +236,7 @@ class ProductCarousel extends HTMLElement {
               : ''
           }
         </a>
+        </div>
       </li>
     `;
   }
