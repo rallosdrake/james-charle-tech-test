@@ -30,7 +30,7 @@ This branch adds a new **Product Carousel** section to the Shopify theme. Produc
   - A hidden ARIA live region for carousel slide announcements
   - Inline SVG icons passed to the JS via `data-` attributes
   - Responsive column layout driven by CSS custom properties
-  - Full schema with settings for heading, layout, carousel behaviour, colour scheme, and spacing
+  - Full schema with settings for heading, layout, carousel behaviour, and spacing
 
 ### Modified files
 
@@ -61,7 +61,6 @@ This branch adds a new **Product Carousel** section to the Shopify theme. Produc
 | Show navigation arrows | true | Show prev/next buttons |
 | Loop carousel | true | Loop back to the start/end |
 | Auto-advance slides | false | Autoplay (pauses on hover/focus; disabled for reduced-motion users) |
-| Colour scheme | scheme-1 | Theme colour scheme |
 | Top / bottom padding | 10 | Section spacing |
 
 ---
