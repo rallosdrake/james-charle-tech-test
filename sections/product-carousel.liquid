@@ -58,6 +58,8 @@
       data-loop="{{ section.settings.loop }}"
       data-autoplay="{{ section.settings.autoplay }}"
       data-money-format="{{ shop.money_format | escape }}"
+      data-icon-prev="{{ 'icon-chev-left.svg' | inline_asset_content | escape }}"
+      data-icon-next="{{ 'icon-chev-right.svg' | inline_asset_content | escape }}"
       aria-label="{{ section.settings.heading | default: 'Product carousel' | escape }}"
       aria-roledescription="carousel"
     >
@@ -128,10 +130,6 @@
       "content": "t:sections.product_carousel.settings.header_products.content"
     },
     {
-      "type": "paragraph",
-      "content": "t:sections.product_carousel.settings.paragraph_mock_shop.content"
-    },
-    {
       "type": "checkbox",
       "id": "show_price",
       "default": true,
@@ -151,19 +149,12 @@
       "label": "t:sections.product_carousel.settings.columns_desktop.label"
     },
     {
-      "type": "select",
+      "type": "range",
       "id": "columns_tablet",
-      "options": [
-        {
-          "value": "1",
-          "label": "1"
-        },
-        {
-          "value": "2",
-          "label": "2"
-        }
-      ],
-      "default": "2",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
       "label": "t:sections.product_carousel.settings.columns_tablet.label"
     },
     {
