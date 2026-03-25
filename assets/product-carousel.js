@@ -16,9 +16,6 @@ class ProductCarousel extends HTMLElement {
       loop:       this.dataset.loop       !== 'false',
       autoplay:   this.dataset.autoplay   === 'true',
       moneyFormat: this.dataset.moneyFormat || '${{amount}}',
-      iconPrev: this.dataset.iconPrev || '',
-      iconNext: this.dataset.iconNext || '',
-      viewportLabel: this.dataset.viewportLabel,
     };
   }
 
@@ -87,49 +84,16 @@ class ProductCarousel extends HTMLElement {
 }
 
 renderCarousel(products) {
-  const { iconPrev, iconNext } = this.settings;
-  const liveRegion = this.querySelector('[data-carousel-announcement]');
+  this.querySelector('[data-skeleton]')?.remove();
 
-  const wrapper = document.createElement('div');
- wrapper.innerHTML = `
-  <div class="relative">
-   <div class="overflow-hidden" data-embla-viewport tabindex="0" aria-label="${this.settings.viewportLabel}">
-       <ul
-        class="flex m-0 p-0 list-none"
-        style="gap: var(--slide-gap, 1.6rem);"
-        role="list"
-      >
-        ${products.map((product, i) => this.buildSlide(product, i, products.length)).join('')}
-      </ul>
-    </div>
+  const list = this.querySelector('[data-embla-container]');
+  if (!list) return;
 
-    ${this.settings.showArrows ? `
-      <div class="flex justify-end gap-2 mt-4">
-        <button
-          type="button"
-          class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed"
-          aria-label="Previous slide"
-          aria-controls="product-carousel-${this.dataset.sectionId}"
-          data-prev
-        >
-        ${iconNext}
-        </button>
-        <button
-          type="button"
-          class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed"
-          aria-label="Next slide"
-          aria-controls="product-carousel-${this.dataset.sectionId}"
-          data-next
-        >
-        ${iconPrev}
-        </button>
-      </div>
-    ` : ''}
-  </div>
-`;
+  list.innerHTML = products
+  .map((product, i) => this.buildSlide(product, i, products.length))
+  .join('');
 
-  this.appendChild(wrapper);
-  if (liveRegion) this.appendChild(liveRegion);
+  this.querySelector('[data-carousel-wrapper]')?.removeAttribute('hidden');
 
   this.initEmbla();
 }
@@ -199,10 +163,11 @@ initEmbla() {
 
     const index = this.embla.selectedScrollSnap() + 1;
     const total = this.embla.scrollSnapList().length;
+    const template = this.dataset.announcementTemplate || 'Slide %{index} of %{total}';
 
     liveRegion.textContent = '';
     requestAnimationFrame(() => {
-      liveRegion.textContent = `Slide ${index} of ${total}`;
+      liveRegion.textContent = template.replace('%{index}', index).replace('%{total}', total);
     });
   });
 }
@@ -211,8 +176,9 @@ buildSlide(product, index, total) {
   return `
     <li
       class="pc-slide min-w-0 shrink-0"
+      role="listitem"
       aria-roledescription="slide"
-      aria-label="Product ${index + 1} of ${total}"
+      aria-label="${product.title}, slide ${index + 1} of ${total}"
     >
       <a class="block text-inherit no-underline rounded-[var(--media-radius,0.4rem)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-foreground))]"
         href="/products/${product.handle}">
@@ -223,7 +189,7 @@ buildSlide(product, index, total) {
               : ''
           }
         </div>
-        <p class="text-xxl font-bold">${product.title}</p>
+        <p class="text-2xl font-bold">${product.title}</p>
           ${
           this.settings.showPrice
             ? `<p class="text-xl font-medium">

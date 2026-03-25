@@ -6,8 +6,8 @@
 
     @media screen and (min-width: 750px) {
       .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
+        padding-top: {{ section.settings.padding_top }}rem;
+        padding-bottom: {{ section.settings.padding_bottom }}rem;
       }
     }
 
@@ -43,7 +43,7 @@
         {%- endif -%}
 
         {%- if section.settings.subheading != blank -%}
-          <p class="text-base text-[rgba(var(--color-foreground),0.65)]">
+          <p class="text-xl text-[rgba(var(--color-foreground),0.65)]">
             {{- section.settings.subheading | escape -}}
           </p>
         {%- endif -%}
@@ -58,8 +58,8 @@
       data-loop="{{ section.settings.loop }}"
       data-autoplay="{{ section.settings.autoplay }}"
       data-money-format="{{ shop.money_format | escape }}"
-      data-icon-prev="{{ 'icon-chev-left.svg' | inline_asset_content | escape }}"
-      data-icon-next="{{ 'icon-chev-right.svg' | inline_asset_content | escape }}"
+      data-announcement-template="{{ 'sections.product_carousel.slide_announcement' | t }}"
+      role="region"
       aria-label="{{ section.settings.heading | default: 'Product carousel' | escape }}"
       aria-roledescription="carousel"
     >
@@ -76,6 +76,45 @@
       </div>
 
       <div class="sr-only" aria-live="polite" aria-atomic="true" data-carousel-announcement></div>
+      <div class="relative" data-carousel-wrapper hidden>
+        <div
+          class="overflow-hidden"
+          data-embla-viewport
+          tabindex="0"
+          aria-label="{{ 'sections.product_carousel.viewport_label' | t }}"
+        >
+          <ul
+            class="flex m-0 p-0 list-none"
+            style="gap: var(--slide-gap, 1.6rem);"
+            role="list"
+            data-embla-container
+          >
+            <li class="pc-slide min-w-0 shrink-0" data-skeleton aria-hidden="true"></li>
+          </ul>
+        </div>
+        {%- if section.settings.show_arrows -%}
+          <div class="flex flex-row justify-end gap-4 mt-4" data-carousel-nav>
+            <button
+              type="button"
+              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              aria-label="{{ 'sections.product_carousel.previous' | t }}"
+              aria-controls="product-carousel-{{ section.id }}"
+              data-prev
+            >
+              {{- 'icon-chev-right.svg' | inline_asset_content -}}
+            </button>
+            <button
+              type="button"
+              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              aria-label="{{ 'sections.product_carousel.next' | t }}"
+              aria-controls="product-carousel-{{ section.id }}"
+              data-next
+            >
+              {{- 'icon-chev-left.svg' | inline_asset_content -}}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
     </product-carousel>
   </div>
 </div>
@@ -182,27 +221,38 @@
     },
     {
       "type": "header",
+      "content": "t:sections.product_carousel.settings.header_color_scheme.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
       "content": "t:sections.product_carousel.settings.header_spacing.content"
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
-      "step": 5,
+      "max": 10,
+      "step": 0.5,
       "unit": "rem",
       "label": "t:sections.product_carousel.settings.padding_top.label",
-      "default": 10
+      "default": 3
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
-      "step": 5,
+      "max": 10,
+      "step": 0.5,
       "unit": "rem",
       "label": "t:sections.product_carousel.settings.padding_bottom.label",
-      "default": 10
+      "default": 3
     }
   ],
   "presets": [

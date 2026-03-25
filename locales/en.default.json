@@ -386,7 +386,10 @@
     },
     "product_carousel": {
       "loading": "Loading...",
-      "viewport_label": "Use arrow keys to navigate"
+      "viewport_label": "Use arrow keys to navigate",
+      "previous": "Previous slide",
+      "next": "Next slide",
+      "slide_announcement": "Slide %{index} of %{total}"
     }
   },
   "localization": {
