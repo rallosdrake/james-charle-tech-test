@@ -1,27 +1,35 @@
 {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
-  }
-
-  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
     }
-  }
 
-  #product-carousel-{{ section.id }} .pc-grid {
-    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    #product-carousel-{{ section.id }} .pc-slide {
+    flex: 0 0 calc(
+      (100% - ({{ section.settings.columns_desktop }} - 1) * var(--slide-gap, 1.6rem))
+      / {{ section.settings.columns_desktop }}
+    );
   }
 
   @media screen and (max-width: 989px) {
-    #product-carousel-{{ section.id }} .pc-grid {
-      grid-template-columns: repeat({{ section.settings.columns_tablet }}, minmax(0, 1fr));
+    #product-carousel-{{ section.id }} .pc-slide {
+      flex: 0 0 calc(
+        (100% - ({{ section.settings.columns_tablet }} - 1) * var(--slide-gap, 1.6rem))
+        / {{ section.settings.columns_tablet }}
+      );
     }
   }
 {%- endstyle -%}
 
+<script src="https://unpkg.com/embla-carousel@8.3.0/embla-carousel.umd.js" defer></script>
+<script src="https://unpkg.com/embla-carousel-autoplay@8.3.0/embla-carousel-autoplay.umd.js" defer></script>
 <script src="{{ 'product-carousel.js' | asset_url }}" defer></script>
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -171,7 +179,7 @@
     {
       "type": "checkbox",
       "id": "loop",
-      "default": true,
+      "default": false,
       "label": "t:sections.product_carousel.settings.loop.label"
     },
     {

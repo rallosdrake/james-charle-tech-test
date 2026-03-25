@@ -75,6 +75,7 @@ class ProductCarousel extends HTMLElement {
     return;
     }
 
+    this.querySelector('[data-loading]')?.remove();
     this.renderCarousel(products);
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -83,30 +84,96 @@ class ProductCarousel extends HTMLElement {
 }
 
 renderCarousel(products) {
-  this.querySelector('[data-loading]')?.remove();
-
   const liveRegion = this.querySelector('[data-carousel-announcement]');
-  if (liveRegion) {
-  liveRegion.textContent = `${products.length} products loaded`;
-}
 
   const wrapper = document.createElement('div');
-  //!grid is used to overwrite base.css grid adding flex, 
-  // this would be removed in a real scenario as tailwind would be setup correctly
-  wrapper.innerHTML = `
-    <ul class="pc-grid !grid m-0 list-none p-0 gap-8" role="list">
-      ${products.map((product, i) => this.buildSlide(product, i, products.length)).join('')}
-    </ul>
-  `;
+ wrapper.innerHTML = `
+  <div class="relative">
+    <div class="overflow-hidden" data-embla-viewport>
+       <ul
+        class="flex m-0 p-0 list-none"
+        style="gap: var(--slide-gap, 1.6rem);"
+        role="list"
+      >
+        ${products.map((product, i) => this.buildSlide(product, i, products.length)).join('')}
+      </ul>
+    </div>
+
+    ${this.settings.showArrows ? `
+      <div class="flex justify-end gap-2 mt-4">
+        <button
+          type="button"
+          class="flex items-center justify-center w-10 h-10 rounded-full border border-[rgba(var(--color-foreground),0.2)] bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))] disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Previous slide"
+          aria-controls="product-carousel-${this.dataset.sectionId}"
+          data-prev
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="flex items-center justify-center w-10 h-10 rounded-full border border-[rgba(var(--color-foreground),0.2)] bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))] disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Next slide"
+          aria-controls="product-carousel-${this.dataset.sectionId}"
+          data-next
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+    ` : ''}
+  </div>
+`;
 
   this.appendChild(wrapper);
   if (liveRegion) this.appendChild(liveRegion);
+
+  this.initEmbla();
 }
 
+initEmbla() {
+  const viewport = this.querySelector('[data-embla-viewport]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const plugins = [];
+
+  if (this.settings.autoplay && !reducedMotion) {
+    plugins.push(EmblaCarouselAutoplay({
+      delay: 3000,
+      stopOnMouseEnter: true,
+      stopOnFocusIn: true,
+      stopOnInteraction: false,
+    }));
+  }
+
+  this.embla = EmblaCarousel(viewport, {
+    loop: this.settings.loop,
+    align: 'start',
+  }, plugins);
+
+  if (this.settings.showArrows) {
+    const prev = this.querySelector('[data-prev]');
+    const next = this.querySelector('[data-next]');
+
+    prev?.addEventListener('click', () => this.embla.scrollPrev());
+    next?.addEventListener('click', () => this.embla.scrollNext());
+
+    const updateArrows = () => {
+      if (prev) prev.disabled = !this.embla.canScrollPrev();
+      if (next) next.disabled = !this.embla.canScrollNext();
+    };
+
+    this.embla.on('select', updateArrows);
+    this.embla.on('init', updateArrows);
+  }
+}
 buildSlide(product, index, total) {
   return `
     <li
-      class="min-w-0"
+      class="pc-slide min-w-0 shrink-0"
       role="group"
       aria-roledescription="slide"
       aria-label="Product ${index + 1} of ${total}"
