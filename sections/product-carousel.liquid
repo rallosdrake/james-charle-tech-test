@@ -33,9 +33,9 @@
 <script src="{{ 'product-carousel.js' | asset_url }}" defer></script>
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="page-width section-{{ section.id }}-padding">
+  <div class="{% if section.settings.container_width != 'full-width' %}page-width{% endif %} section-{{ section.id }}-padding">
     {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
-      <div class="mb-10 text-{{ section.settings.heading_alignment }}">
+      <div class="mb-10 text-{{ section.settings.heading_alignment }}{% if section.settings.container_width == 'full-width' %} px-5 md:px-10{% endif %}">
         {%- if section.settings.heading != blank -%}
           <{{ section.settings.heading_size }} class="{{ section.settings.heading_size }} mb-2">
             {{- section.settings.heading | escape -}}
@@ -94,7 +94,7 @@
           </ul>
         </div>
         {%- if section.settings.show_arrows -%}
-          <div class="flex flex-row {{ section.settings.nav_alignment }} gap-4 mt-4" data-carousel-nav>
+          <div class="flex flex-row {{ section.settings.nav_alignment }} gap-4 mt-4{% if section.settings.container_width == 'full-width' %} px-5 md:px-10{% endif %}" data-carousel-nav>
             <button
               type="button"
               class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
@@ -262,6 +262,16 @@
     {
       "type": "header",
       "content": "t:sections.product_carousel.settings.header_spacing.content"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "t:sections.product_carousel.settings.container_width.label",
+      "options": [
+        { "value": "full-width", "label": "t:sections.product_carousel.settings.container_width.full_width" },
+        { "value": "page-width", "label": "t:sections.product_carousel.settings.container_width.page_width" }
+      ],
+      "default": "page-width"
     },
     {
       "type": "range",

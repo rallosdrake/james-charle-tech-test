@@ -1728,6 +1728,11 @@
         "header_spacing": {
           "content": "Spacing"
         },
+        "container_width": {
+          "label": "Container width",
+          "full_width": "Full width",
+          "page_width": "Page width"
+        },
         "padding_top": {
           "label": "Top padding"
         },
