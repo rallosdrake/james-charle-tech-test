@@ -1679,15 +1679,8 @@
         "header_products": {
           "content": "Products"
         },
-        "paragraph_mock_shop": {
-          "content": "Products are fetched live from the mock.shop API."
-        },
         "show_price": {
           "label": "Show price"
-        },
-        "show_rating": {
-          "label": "Show product rating",
-          "info": "Requires a product reviews app."
         },
         "header_layout": {
           "content": "Layout"

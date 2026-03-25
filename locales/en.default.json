@@ -385,7 +385,8 @@
       "step_error": "You can only add this item in increments of {{ step }}"
     },
     "product_carousel": {
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "viewport_label": "Use arrow keys to navigate"
     }
   },
   "localization": {
