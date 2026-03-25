@@ -1658,8 +1658,14 @@
         "heading": {
           "label": "Heading"
         },
+        "heading_alignment": {
+          "label": "Heading alignment",
+          "left": "Left",
+          "center": "Center",
+          "right": "Right"
+        },
         "heading_size": {
-          "label": "Heading size"
+          "label": "Heading size",
         },
         "heading_size_options": {
           "small": {
@@ -1724,6 +1730,12 @@
         },
         "padding_bottom": {
           "label": "Bottom padding"
+        },
+        "nav_alignment": {
+          "label": "Navigation alignment",
+          "left": "Left",
+          "center": "Center",
+          "right": "Right"
         }
       }
     },
