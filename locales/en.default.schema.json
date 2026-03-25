@@ -1678,6 +1678,9 @@
             "label": "Large"
           }
         },
+        "show_tags": {
+          "label": "Show tags"
+        },
         "subheading": {
           "label": "Subheading",
           "default": "Explore our latest collection"

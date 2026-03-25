@@ -1,17 +1,17 @@
 {%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
+  }
+
+  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
+      padding-top: {{ section.settings.padding_top }}rem;
+      padding-bottom: {{ section.settings.padding_bottom }}rem;
     }
+  }
 
-    @media screen and (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}rem;
-        padding-bottom: {{ section.settings.padding_bottom }}rem;
-      }
-    }
-
-    #product-carousel-{{ section.id }} .pc-slide {
+  #product-carousel-{{ section.id }} .pc-slide {
     flex: 0 0 calc(
       (100% - ({{ section.settings.columns_desktop }} - 1) * var(--slide-gap, 1.6rem))
       / {{ section.settings.columns_desktop }}
@@ -26,6 +26,7 @@
       );
     }
   }
+
 {%- endstyle -%}
 
 <script src="https://unpkg.com/embla-carousel@8.3.0/embla-carousel.umd.js" defer></script>
@@ -55,6 +56,7 @@
       data-section-id="{{ section.id }}"
       data-show-price="{{ section.settings.show_price }}"
       data-show-arrows="{{ section.settings.show_arrows }}"
+      data-show-tags="{{ section.settings.show_tags }}"
       data-loop="{{ section.settings.loop }}"
       data-autoplay="{{ section.settings.autoplay }}"
       data-money-format="{{ shop.money_format | escape }}"
@@ -184,6 +186,12 @@
       "id": "show_price",
       "default": true,
       "label": "t:sections.product_carousel.settings.show_price.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "default": true,
+      "label": "t:sections.product_carousel.settings.show_tags.label"
     },
     {
       "type": "header",
