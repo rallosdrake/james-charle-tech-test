@@ -1648,6 +1648,105 @@
         "name": "Multirow"
       }
     },
+    "product_carousel": {
+      "loading": "Loading",
+      "name": "Product Carousel",
+      "settings": {
+        "header_content": {
+          "content": "Content"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "heading_alignment": {
+          "label": "Heading alignment",
+          "left": "Left",
+          "center": "Center",
+          "right": "Right"
+        },
+        "heading_size": {
+          "label": "Heading size",
+        },
+        "heading_size_options": {
+          "small": {
+            "label": "Small"
+          },
+          "medium": {
+            "label": "Medium"
+          },
+          "large": {
+            "label": "Large"
+          }
+        },
+        "show_tags": {
+          "label": "Show tags"
+        },
+        "subheading": {
+          "label": "Subheading",
+          "default": "Explore our latest collection"
+        },
+        "header_products": {
+          "content": "Products"
+        },
+        "show_price": {
+          "label": "Show price"
+        },
+        "header_layout": {
+          "content": "Layout"
+        },
+        "columns_desktop": {
+          "label": "Columns on desktop"
+        },
+        "columns_tablet": {
+          "label": "Columns on tablet"
+        },
+        "header_carousel": {
+          "content": "Carousel"
+        },
+        "show_arrows": {
+          "label": "Show navigation arrows"
+        },
+        "show_dots": {
+          "label": "Show dot indicators"
+        },
+        "loop": {
+          "label": "Loop carousel"
+        },
+        "autoplay": {
+          "label": "Auto-advance slides",
+          "info": "Pauses when a visitor hovers or focuses the carousel. Disabled automatically for visitors who prefer reduced motion."
+        },
+        "autoplay_speed": {
+          "label": "Auto-advance speed"
+        },
+        "header_color_scheme": {
+          "content": "Color scheme"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "header_spacing": {
+          "content": "Spacing"
+        },
+        "container_width": {
+          "label": "Container width",
+          "full_width": "Full width",
+          "page_width": "Page width"
+        },
+        "padding_top": {
+          "label": "Top padding"
+        },
+        "padding_bottom": {
+          "label": "Bottom padding"
+        },
+        "nav_alignment": {
+          "label": "Navigation alignment",
+          "left": "Left",
+          "center": "Center",
+          "right": "Right"
+        }
+      }
+    },
     "main-account": {
       "name": "Account"
     },
