@@ -1,7 +1,7 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}rem;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}rem;
+    padding-top: {{ section.settings.padding_top }}rem;
+    padding-bottom: {{ section.settings.padding_bottom}}rem;
   }
 
   @media screen and (min-width: 750px) {
@@ -43,7 +43,7 @@
         {%- endif -%}
 
         {%- if section.settings.subheading != blank -%}
-          <p class="text-xl text-[rgba(var(--color-foreground),0.65)]">
+          <p class="text-xl text-pc-fg-muted">
             {{- section.settings.subheading | escape -}}
           </p>
         {%- endif -%}
@@ -66,7 +66,7 @@
     >
       <div class="flex items-center justify-center py-12" data-loading>
         <div
-          class="h-10 w-10 animate-spin rounded-full border-4 border-[rgba(var(--color-foreground),0.15)] border-t-[rgba(var(--color-foreground),1)]"
+          class="h-10 w-10 animate-spin rounded-full border-4 border-pc-fg-subtle border-t-pc-fg"
           aria-hidden="true"
         >
           {%- render 'loading-spinner' -%}
@@ -79,6 +79,7 @@
       <div class="sr-only" aria-live="polite" aria-atomic="true" data-carousel-announcement></div>
       <div class="relative" data-carousel-wrapper hidden>
         <div
+          id="embla-viewport-{{ section.id }}"
           class="overflow-hidden"
           data-embla-viewport
           tabindex="0"
@@ -94,21 +95,24 @@
           </ul>
         </div>
         {%- if section.settings.show_arrows -%}
-          <div class="flex flex-row {{ section.settings.nav_alignment }} gap-4 mt-4{% if section.settings.container_width == 'full-width' %} px-5 md:px-10{% endif %}" data-carousel-nav>
+          <div
+            class="flex flex-row {{ section.settings.nav_alignment }} gap-4 mt-4{% if section.settings.container_width == 'full-width' %} px-5 md:px-10{% endif %}"
+            data-carousel-nav
+          >
             <button
               type="button"
-              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-pc-fg text-pc-bg disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pc-fg"
               aria-label="{{ 'sections.product_carousel.previous' | t }}"
-              aria-controls="product-carousel-{{ section.id }}"
+              aria-controls="embla-viewport-{{ section.id }}"
               data-prev
             >
               {{- 'icon-chev-right.svg' | inline_asset_content -}}
             </button>
             <button
               type="button"
-              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              class="flex cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-pc-fg text-pc-bg disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pc-fg"
               aria-label="{{ 'sections.product_carousel.next' | t }}"
-              aria-controls="product-carousel-{{ section.id }}"
+              aria-controls="embla-viewport-{{ section.id }}"
               data-next
             >
               {{- 'icon-chev-left.svg' | inline_asset_content -}}

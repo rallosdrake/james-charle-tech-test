@@ -187,8 +187,8 @@ class ProductCarousel extends HTMLElement {
 
     return `<li class="pc-slide min-w-0 shrink-0">
         <div role="group" aria-roledescription="slide" aria-label="${product.title}, slide ${index + 1} of ${total}">
-        <a class="group block text-inherit no-underline rounded-[var(--media-radius,0.4rem)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-foreground))]" href="/products/${product.handle}">
-          <div class="relative mb-3 aspect-square overflow-hidden rounded-[var(--media-radius,0.4rem)] bg-[rgba(var(--color-foreground),0.04)]">
+        <a class="group block text-inherit no-underline rounded-[var(--media-radius,0.4rem)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pc-fg" href="/products/${product.handle}">
+          <div class="relative mb-3 aspect-square overflow-hidden rounded-[var(--media-radius,0.4rem)] bg-pc-fg-faint">
             ${primaryImage
               ? `<img
                    src="${primaryImage.url}"
@@ -208,18 +208,18 @@ class ProductCarousel extends HTMLElement {
               : ''
             }
             ${this.settings.showTags && product.tags?.[0]
-              ? `<span class="absolute top-2 left-2 text-xs font-medium uppercase tracking-wide px-2 py-1 rounded bg-[rgb(var(--color-foreground))] text-[rgb(var(--color-background))]">
+              ? `<span class="absolute top-2 left-2 text-xs font-medium uppercase tracking-wide px-2 py-1 rounded bg-pc-fg text-pc-bg">
                    ${product.tags[0]}
                  </span>`
               : ''
             }
             ${!product.availableForSale
-              ? `<span class="absolute bottom-2 left-2 text-xs font-medium uppercase tracking-wide px-2 py-1 rounded bg-[rgba(var(--color-background),0.9)] text-[rgb(var(--color-foreground))]">
+              ? `<span class="absolute bottom-2 left-2 text-xs font-medium uppercase tracking-wide px-2 py-1 rounded bg-pc-bg-overlay text-pc-fg">
                    Out of stock
                  </span>`
               : `<button
                    type="button"
-                   class="pc-atc-btn absolute bottom-3 left-3 right-3 text-sm font-medium py-2 px-4 rounded bg-[rgb(var(--color-foreground))] text-[rgb(var(--color-background))] cursor-pointer opacity-0 translate-y-2 transition-[opacity,transform] duration-[250ms] ease-[ease] group-hover:opacity-100 group-hover:translate-y-0 motion-reduce:transition-none"
+                   class="pc-atc-btn absolute bottom-3 left-3 right-3 text-sm font-medium py-2 px-4 rounded bg-pc-fg text-pc-bg cursor-pointer opacity-0 translate-y-2 transition-[opacity,transform] duration-[250ms] ease-[ease] group-hover:opacity-100 group-hover:translate-y-0 motion-reduce:transition-none"
                    aria-label="Add ${product.title} to cart"
                    tabindex="-1"
                  >
@@ -242,4 +242,6 @@ class ProductCarousel extends HTMLElement {
   }
 }
 
-customElements.define('product-carousel', ProductCarousel);
+if (!customElements.get('product-carousel')) {
+  customElements.define('product-carousel', ProductCarousel);
+}
